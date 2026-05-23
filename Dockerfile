@@ -8,7 +8,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-COPY pyproject.toml requirements.txt LICENSE ./
+COPY pyproject.toml requirements.txt README.md LICENSE ./
 COPY src ./src
 RUN pip install --upgrade pip \
     && pip install .
