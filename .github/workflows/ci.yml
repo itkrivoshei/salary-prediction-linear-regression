@@ -6,8 +6,11 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
-  lint-and-test:
+  checks:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,13 +33,6 @@ jobs:
 
       - name: Run tests
         run: pytest
-
-  docker-build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
 
       - name: Build Docker image
         run: docker build -t salary-prediction:ci .
