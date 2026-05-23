@@ -1,77 +1,75 @@
 # Salary Prediction with Linear Regression
 
-A small, production-style machine learning project that predicts salary from years of professional experience using a linear regression model.
+Simple salary prediction app based on years of experience and a linear regression model.
 
-The project was modernized from a local Tkinter prototype into a browser-based Streamlit application with a cleaner Python structure, reproducible setup, tests, linting, Docker support, and GitHub Actions CI.
+## Demo
 
-## Live demo
-
-Deploy this repository on Streamlit Community Cloud using:
-
-```text
-app.py
-```
-
-After deployment, add the live app URL here:
+Live demo URL:
 
 ```text
 https://your-streamlit-app-url
 ```
 
-## Preview
+For Streamlit Cloud, use this entry point:
 
-The application allows users to:
+```text
+app.py
+```
 
-- upload a CSV dataset or use the included sample dataset;
-- train a linear regression model;
-- review model metrics such as MSE, RMSE, MAE, and R²;
-- visualize actual vs predicted salaries;
-- make a salary prediction for a custom experience value.
+## Features
 
-## Tech stack
+- Load the included sample CSV or upload another dataset.
+- Train a linear regression model.
+- Show MSE, RMSE, MAE, and R² metrics.
+- Plot actual vs predicted salary values.
+- Predict salary for a custom experience value.
 
-| Area | Tools |
-| --- | --- |
-| Language | Python |
-| Web app | Streamlit |
-| Data | Pandas, NumPy |
-| Machine learning | scikit-learn |
-| Visualization | Matplotlib |
-| Quality | Ruff, Pytest |
-| DevOps | GitHub Actions, Docker |
+## Stack
 
-## Project structure
+- Python
+- Streamlit
+- Pandas / NumPy
+- scikit-learn
+- Matplotlib
+- Pytest / Ruff
+- Docker
+- GitHub Actions
+
+## Structure
 
 ```text
 .
-├── app.py                         # Streamlit web application
+├── app.py
+├── data/
+│   └── salary_data.csv
 ├── src/
 │   └── salary_prediction/
 │       ├── __init__.py
-│       └── model.py               # Data validation, training, prediction helpers
-├── data/
-│   └── salary_data.csv            # Small sample dataset
+│       └── model.py
 ├── tests/
-│   └── test_model.py              # Unit tests for model logic
-├── .github/
-│   └── workflows/
-│       └── ci.yml                 # Lint and test workflow
-├── Dockerfile                     # Containerized app runtime
-├── pyproject.toml                 # Project metadata and tool configuration
-├── requirements.txt               # Runtime dependencies for Streamlit Cloud
+│   └── test_model.py
+├── .github/workflows/ci.yml
+├── Dockerfile
+├── pyproject.toml
+├── requirements.txt
 └── README.md
 ```
 
-## Dataset format
+## CSV format
 
-The application expects a CSV file with these columns:
+```csv
+experience_years,salary
+1,42000
+3,56000
+5,75000
+```
 
-| Column | Type | Example |
-| --- | --- | --- |
-| `experience_years` | number | `5` |
-| `salary` | number | `75000` |
+Required columns:
 
-The previous dataset contained unrelated personal-style columns such as names, emails, and phone numbers. The modernized version keeps only the two fields needed for the regression task.
+| Column | Description |
+| --- | --- |
+| `experience_years` | Years of professional experience |
+| `salary` | Salary value |
 
 ## Run locally
 
@@ -82,7 +80,7 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-## Run tests and linting
+## Run checks
 
 ```bash
 pip install -e ".[dev]"
@@ -103,20 +101,10 @@ Open:
 http://localhost:8501
 ```
 
-## Model notes
+## Notes
 
-This is intentionally a simple baseline model. Linear regression is useful here because the relationship is easy to explain and visualize. For a larger real-world salary prediction system, more features would be needed, such as role, location, seniority, education, industry, and company size.
-
-## Repository modernization checklist
-
-- [x] Replaced local Tkinter GUI with a web-ready Streamlit app.
-- [x] Added clean package structure under `src/`.
-- [x] Added tests for core model logic.
-- [x] Added CI workflow for linting and tests.
-- [x] Added Dockerfile for reproducible deployment.
-- [x] Replaced personal-style sample data with minimal model-ready data.
-- [x] Updated README for recruiters and technical reviewers.
+This is a small linear regression example. The model uses only one feature, so predictions are easy to inspect but not suitable for real salary estimation.
 
 ## License
 
-MIT License.
+MIT
