@@ -2,18 +2,18 @@
 
 Simple salary prediction app based on years of experience and a linear regression model.
 
-## Demo
-
-Live demo URL:
+Repository:
 
 ```text
-https://your-streamlit-app-url
+https://github.com/itkrivoshei/salary-prediction-linear-regression
 ```
 
-For Streamlit Cloud, use this entry point:
+## Demo
+
+Streamlit entry point:
 
 ```text
-app.py
+streamlit_app.py
 ```
 
 ## Features
@@ -39,6 +39,7 @@ app.py
 
 ```text
 .
+├── streamlit_app.py
 ├── app.py
 ├── data/
 │   └── salary_data.csv
@@ -77,7 +78,7 @@ Required columns:
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-streamlit run app.py
+streamlit run streamlit_app.py
 ```
 
 ## Run checks
