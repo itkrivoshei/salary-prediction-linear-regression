@@ -1,8 +1,11 @@
+from io import StringIO
+
 import pandas as pd
 import pytest
 
 from salary_prediction.model import (
     DatasetValidationError,
+    load_dataset,
     predict_salary,
     train_regression_model,
     validate_dataset,
@@ -16,6 +19,23 @@ def sample_data() -> pd.DataFrame:
             "salary": [41000, 48000, 55000, 62000, 69000, 76000, 83000, 90000],
         }
     )
+
+
+def test_load_dataset_reads_csv_and_coerces_numeric_values() -> None:
+    csv_data = StringIO(
+        "experience_years,salary,notes\n"
+        "1,41000,valid\n"
+        "2,48000,valid\n"
+        "3,55000,valid\n"
+        "4,62000,valid\n"
+        "5,69000,valid\n"
+        "bad,76000,dropped\n"
+    )
+
+    result = load_dataset(csv_data)
+
+    assert list(result.columns) == ["experience_years", "salary"]
+    assert len(result) == 5
 
 
 def test_validate_dataset_keeps_required_columns() -> None:
