@@ -42,6 +42,12 @@ def format_salary(value: float) -> str:
     return f"{value:,.0f}"
 
 
+def format_model_equation(result: PredictionResult) -> str:
+    coefficient = float(result.model.coef_[0])
+    intercept = float(result.model.intercept_)
+    return f"salary = {coefficient:,.2f} × experience_years + {intercept:,.2f}"
+
+
 def plot_predictions(result: PredictionResult) -> plt.Figure:
     fig, ax = plt.subplots(figsize=(8, 5))
     ax.scatter(
@@ -77,7 +83,23 @@ def plot_predictions(result: PredictionResult) -> plt.Figure:
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
     ax.legend(frameon=False)
+    fig.tight_layout()
     return fig
+
+
+def show_model_metrics(result: PredictionResult) -> None:
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("MSE", f"{result.mse:,.2f}")
+    col2.metric("RMSE", f"{result.rmse:,.2f}")
+    col3.metric("MAE", f"{result.mae:,.2f}")
+    col4.metric("R²", f"{result.r2:.3f}")
+
+
+def show_model_equation(result: PredictionResult) -> None:
+    with st.container(border=True):
+        st.markdown("**Fitted model equation**")
+        st.code(format_model_equation(result), language="text")
+        st.caption("Calculated from the currently loaded dataset.")
 
 
 def main() -> None:
@@ -91,26 +113,23 @@ def main() -> None:
     uploaded_file = st.file_uploader("Upload CSV", type=["csv"])
 
     try:
-        data = load_dataset(uploaded_file) if uploaded_file else load_default_data()
+        dataset = load_dataset(uploaded_file) if uploaded_file else load_default_data()
     except DatasetValidationError as exc:
         st.error(str(exc))
         st.stop()
 
     st.subheader("Dataset")
     st.caption(
-        f"{len(data)} valid rows · feature: `{FEATURE_COLUMN}` · "
+        f"{len(dataset)} valid rows · feature: `{FEATURE_COLUMN}` · "
         f"target: `{TARGET_COLUMN}`"
     )
-    st.dataframe(data, use_container_width=True)
+    st.dataframe(dataset, use_container_width=True)
 
-    result = train_regression_model(data)
+    result = train_regression_model(dataset)
 
     st.subheader("Model metrics")
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric("MSE", f"{result.mse:,.2f}")
-    col2.metric("RMSE", f"{result.rmse:,.2f}")
-    col3.metric("MAE", f"{result.mae:,.2f}")
-    col4.metric("R²", f"{result.r2:.3f}")
+    show_model_metrics(result)
+    show_model_equation(result)
 
     st.subheader("Prediction chart")
     st.pyplot(plot_predictions(result), clear_figure=True)
