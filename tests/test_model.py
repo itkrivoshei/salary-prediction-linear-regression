@@ -30,7 +30,35 @@ def test_validate_dataset_keeps_required_columns() -> None:
 def test_validate_dataset_rejects_missing_columns() -> None:
     data = pd.DataFrame({"experience_years": [1, 2, 3]})
 
-    with pytest.raises(DatasetValidationError):
+    with pytest.raises(DatasetValidationError, match="Missing required column"):
+        validate_dataset(data)
+
+
+def test_validate_dataset_rejects_too_few_valid_rows() -> None:
+    data = pd.DataFrame(
+        {
+            "experience_years": [1, 2, None, None, None],
+            "salary": [41000, 48000, None, None, None],
+        }
+    )
+
+    with pytest.raises(DatasetValidationError, match="at least five valid rows"):
+        validate_dataset(data)
+
+
+def test_validate_dataset_rejects_negative_experience() -> None:
+    data = sample_data()
+    data.loc[0, "experience_years"] = -1
+
+    with pytest.raises(DatasetValidationError, match="cannot be negative"):
+        validate_dataset(data)
+
+
+def test_validate_dataset_rejects_non_positive_salary() -> None:
+    data = sample_data()
+    data.loc[0, "salary"] = 0
+
+    with pytest.raises(DatasetValidationError, match="greater than zero"):
         validate_dataset(data)
 
 
@@ -49,3 +77,10 @@ def test_predict_salary_returns_positive_number() -> None:
     prediction = predict_salary(result.model, 10)
 
     assert prediction > 0
+
+
+def test_predict_salary_rejects_negative_experience() -> None:
+    result = train_regression_model(sample_data())
+
+    with pytest.raises(ValueError, match="cannot be negative"):
+        predict_salary(result.model, -1)
