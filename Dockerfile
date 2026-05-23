@@ -8,11 +8,14 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-COPY requirements.txt .
+COPY pyproject.toml requirements.txt LICENSE ./
+COPY src ./src
 RUN pip install --upgrade pip \
-    && pip install -r requirements.txt
+    && pip install .
 
-COPY . .
+COPY app.py streamlit_app.py ./
+COPY data ./data
+COPY .streamlit ./.streamlit
 
 RUN useradd --create-home --shell /usr/sbin/nologin appuser \
     && chown -R appuser:appuser /app
