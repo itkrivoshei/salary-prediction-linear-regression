@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
 
-from src.salary_prediction.model import (
+from salary_prediction.model import (
     DatasetValidationError,
     PredictionResult,
     load_dataset,
