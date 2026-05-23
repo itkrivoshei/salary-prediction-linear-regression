@@ -1,8 +1,8 @@
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 from runpy import run_module
-import sys
 
 ROOT = Path(__file__).resolve().parent
 SRC = ROOT / "src"
