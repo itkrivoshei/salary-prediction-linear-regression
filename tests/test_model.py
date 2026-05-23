@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from src.salary_prediction.model import (
+from salary_prediction.model import (
     DatasetValidationError,
     predict_salary,
     train_regression_model,
