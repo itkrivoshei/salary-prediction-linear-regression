@@ -98,7 +98,8 @@ def main() -> None:
 
     st.subheader("Dataset")
     st.caption(
-        f"{len(data)} valid rows · feature: `{FEATURE_COLUMN}` · target: `{TARGET_COLUMN}`"
+        f"{len(data)} valid rows · feature: `{FEATURE_COLUMN}` · "
+        f"target: `{TARGET_COLUMN}`"
     )
     st.dataframe(data, use_container_width=True)
 
