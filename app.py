@@ -7,6 +7,8 @@ import pandas as pd
 import streamlit as st
 
 from salary_prediction.model import (
+    FEATURE_COLUMN,
+    TARGET_COLUMN,
     DatasetValidationError,
     PredictionResult,
     load_dataset,
@@ -16,6 +18,12 @@ from salary_prediction.model import (
 
 PROJECT_ROOT = Path(__file__).parent
 DEFAULT_DATASET = PROJECT_ROOT / "data" / "salary_data.csv"
+MIN_EXPERIENCE_YEARS = 0.0
+MAX_EXPERIENCE_YEARS = 40.0
+DEFAULT_EXPERIENCE_YEARS = 5.0
+EXPERIENCE_STEP = 0.5
+ACTUAL_COLOR = "#334155"
+PREDICTED_COLOR = "#0f766e"
 
 
 st.set_page_config(
@@ -30,17 +38,34 @@ def load_default_data() -> pd.DataFrame:
     return load_dataset(DEFAULT_DATASET)
 
 
+def format_salary(value: float) -> str:
+    return f"{value:,.0f}"
+
+
 def plot_predictions(result: PredictionResult) -> plt.Figure:
     fig, ax = plt.subplots(figsize=(8, 5))
-    ax.scatter(result.x_test, result.y_test, label="Actual salary")
-    ax.scatter(result.x_test, result.y_pred, label="Predicted salary")
+    ax.scatter(
+        result.x_test,
+        result.y_test,
+        color=ACTUAL_COLOR,
+        label="Actual salary",
+        alpha=0.85,
+    )
+    ax.scatter(
+        result.x_test,
+        result.y_pred,
+        color=PREDICTED_COLOR,
+        label="Predicted salary",
+        alpha=0.9,
+    )
 
     sorted_values = result.x_test.assign(predicted_salary=result.y_pred).sort_values(
-        "experience_years"
+        FEATURE_COLUMN
     )
     ax.plot(
-        sorted_values["experience_years"],
+        sorted_values[FEATURE_COLUMN],
         sorted_values["predicted_salary"],
+        color=PREDICTED_COLOR,
         linewidth=2,
         label="Regression line",
     )
@@ -48,13 +73,16 @@ def plot_predictions(result: PredictionResult) -> plt.Figure:
     ax.set_title("Experience vs salary")
     ax.set_xlabel("Experience in years")
     ax.set_ylabel("Salary")
-    ax.grid(True, alpha=0.3)
-    ax.legend()
+    ax.grid(True, alpha=0.2)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.legend(frameon=False)
     return fig
 
 
 def main() -> None:
     st.title("Salary Prediction with Linear Regression")
+    st.caption("Single-feature regression demo using years of experience.")
     st.write(
         "Train a simple linear regression model and estimate salary from years of "
         "professional experience."
@@ -69,6 +97,9 @@ def main() -> None:
         st.stop()
 
     st.subheader("Dataset")
+    st.caption(
+        f"{len(data)} valid rows · feature: `{FEATURE_COLUMN}` · target: `{TARGET_COLUMN}`"
+    )
     st.dataframe(data, use_container_width=True)
 
     result = train_regression_model(data)
@@ -86,13 +117,14 @@ def main() -> None:
     st.subheader("Try a custom prediction")
     experience = st.slider(
         "Experience in years",
-        min_value=0.0,
-        max_value=40.0,
-        value=5.0,
-        step=0.5,
+        min_value=MIN_EXPERIENCE_YEARS,
+        max_value=MAX_EXPERIENCE_YEARS,
+        value=DEFAULT_EXPERIENCE_YEARS,
+        step=EXPERIENCE_STEP,
     )
     predicted_salary = predict_salary(result.model, experience)
-    st.success(f"Estimated salary: {predicted_salary:,.0f}")
+    st.metric("Estimated salary", format_salary(predicted_salary))
+    st.caption("Estimate uses only one feature and is not a real salary benchmark.")
 
     with st.expander("Expected CSV format"):
         st.code("experience_years,salary\n1,42000\n3,56000", language="text")
