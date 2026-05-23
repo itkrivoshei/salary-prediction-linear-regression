@@ -138,3 +138,7 @@ Docker runtime port:
 ## Model note
 
 The model uses one feature: `experience_years`. It is suitable as a simple linear regression example, not as a real salary estimation system.
+
+## License
+
+[MIT](LICENSE)
