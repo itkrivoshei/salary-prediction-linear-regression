@@ -1,11 +1,16 @@
 # Salary Prediction with Linear Regression
 
 [![CI](https://github.com/itkrivoshei/salary-prediction-linear-regression/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/itkrivoshei/salary-prediction-linear-regression/actions/workflows/ci.yml)
+[![Live demo](https://img.shields.io/badge/live%20demo-Streamlit-red)](https://salary-prediction-linear-regression-iho42kbnb5e7kobmfc3qh2.streamlit.app/)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
-![Streamlit](https://img.shields.io/badge/streamlit-app-red)
 ![Docker](https://img.shields.io/badge/docker-build-informational)
 
 A small Streamlit app that trains a linear regression model and predicts salary from years of experience.
+
+## Links
+
+- Live demo: https://salary-prediction-linear-regression-iho42kbnb5e7kobmfc3qh2.streamlit.app/
+- Repository: https://github.com/itkrivoshei/salary-prediction-linear-regression
 
 ## What it does
 
