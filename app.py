@@ -123,7 +123,7 @@ def main() -> None:
         f"{len(dataset)} valid rows · feature: `{FEATURE_COLUMN}` · "
         f"target: `{TARGET_COLUMN}`"
     )
-    st.dataframe(dataset, use_container_width=True)
+    st.dataframe(dataset, width="stretch")
 
     result = train_regression_model(dataset)
 
