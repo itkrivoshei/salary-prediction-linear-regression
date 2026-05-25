@@ -65,9 +65,7 @@ def plot_predictions(result: PredictionResult) -> plt.Figure:
         alpha=0.9,
     )
 
-    sorted_values = result.x_test.assign(predicted_salary=result.y_pred).sort_values(
-        FEATURE_COLUMN
-    )
+    sorted_values = result.x_test.assign(predicted_salary=result.y_pred).sort_values(FEATURE_COLUMN)
     ax.plot(
         sorted_values[FEATURE_COLUMN],
         sorted_values["predicted_salary"],
@@ -120,8 +118,7 @@ def main() -> None:
 
     st.subheader("Dataset")
     st.caption(
-        f"{len(dataset)} valid rows · feature: `{FEATURE_COLUMN}` · "
-        f"target: `{TARGET_COLUMN}`"
+        f"{len(dataset)} valid rows · feature: `{FEATURE_COLUMN}` · target: `{TARGET_COLUMN}`"
     )
     st.dataframe(dataset, width="stretch")
 

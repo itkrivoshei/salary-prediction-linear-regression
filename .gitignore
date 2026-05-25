@@ -1,41 +1,42 @@
-# Python bytecode
+# Python caches
 __pycache__/
 *.py[cod]
-*$py.class
 
-# Virtual environments
-.venv/
-venv/
-env/
-ENV/
-
-# Environment variables
-.env
-.env.*
-
-# Build outputs
-build/
-dist/
-*.egg-info/
-
-# Test and coverage output
+# Test, lint, type-check, and coverage caches
 .pytest_cache/
+.ruff_cache/
+.mypy_cache/
 .coverage
 coverage.xml
 htmlcov/
 
-# Type checking and linting caches
-.mypy_cache/
-.pyright/
-.ruff_cache/
+# Virtual environments and local Python environments
+.venv/
+venv/
+env/
+ENV/
+.pythonlibs/
 
-# Jupyter
-.ipynb_checkpoints/
+# Build artifacts
+build/
+dist/
+*.egg-info/
 
-# OS and editor files
-.DS_Store
-.idea/
-.vscode/
-
-# Streamlit secrets
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
 .streamlit/secrets.toml
+
+# Generated model artifacts
+*.pkl
+*.joblib
+
+# Notebook and editor metadata
+.ipynb_checkpoints/
+.vscode/
+.idea/
+
+# OS files and logs
+.DS_Store
+*.log

@@ -1,40 +1,48 @@
-[build-system]
-requires = ["setuptools>=69", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "salary-prediction-linear-regression"
 version = "0.1.0"
-description = "Browser-based salary prediction app using linear regression."
+description = "Streamlit app for salary prediction with linear regression."
 readme = "README.md"
-requires-python = ">=3.10"
-license = { file = "LICENSE" }
+requires-python = ">=3.12"
 authors = [{ name = "Nikita Krivoshei" }]
+license = "MIT"
 dependencies = [
-  "matplotlib>=3.9",
-  "numpy>=1.26",
-  "pandas>=2.2",
-  "scikit-learn>=1.5",
-  "streamlit>=1.35",
+  "matplotlib>=3.10,<4",
+  "numpy>=2.2,<3",
+  "pandas>=2.3,<3",
+  "scikit-learn>=1.7,<2",
 ]
 
 [project.optional-dependencies]
-dev = [
-  "pytest>=8.2",
-  "ruff>=0.4.8",
+app = [
+  "streamlit>=1.50,<2",
 ]
+dev = [
+  "pytest>=8.4,<9",
+  "ruff>=0.13,<1",
+]
+
+[build-system]
+requires = ["setuptools>=70", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.ruff]
-line-length = 88
-target-version = "py310"
+target-version = "py312"
+line-length = 100
+src = ["src", "tests"]
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "B", "UP", "SIM"]
+select = ["E", "F", "I", "B", "UP"]
 ignore = []
 
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
 [tool.pytest.ini_options]
-pythonpath = ["."]
+pythonpath = ["src"]
 testpaths = ["tests"]
