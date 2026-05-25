@@ -8,13 +8,11 @@ Streamlit app for salary prediction with linear regression.
 
 Live demo: [salary-prediction-linear-regression.streamlit.app](https://salary-prediction-linear-regression.streamlit.app)
 
-The project demonstrates a compact Python machine-learning workflow: CSV data loading, input validation, linear regression training, prediction, Streamlit UI, tests, linting, formatting checks, Docker build, Dependabot updates, and GitHub Actions CI.
+## Project Scope
 
-## Project Status
+This is a small educational ML project. It demonstrates CSV data loading, input validation, linear regression training, Streamlit UI, tests, linting, Docker build, Dependabot updates, and GitHub Actions CI.
 
-This is a small educational ML project. It is useful for demonstrating a basic regression workflow, but it should not be used for real compensation benchmarking, hiring decisions, financial planning, or salary negotiation.
-
-The dataset is a small sample CSV stored in the repository. The model is intentionally simple and focuses on project structure, validation, reproducibility, and delivery workflow rather than production-grade salary modelling.
+The dataset is a small sample CSV stored in the repository. The model should not be used for real compensation benchmarking, hiring decisions, financial planning, or salary negotiation.
 
 ## Features
 
@@ -25,8 +23,6 @@ The dataset is a small sample CSV stored in the repository. The model is intenti
 - Display the workflow through Streamlit
 - Validate the project with Pytest and Ruff
 - Build the app as a Docker image
-- Run automated checks with GitHub Actions
-- Auto-merge Dependabot pull requests after successful CI
 
 ## Tech Stack
 
@@ -40,7 +36,7 @@ The dataset is a small sample CSV stored in the repository. The model is intenti
 | Testing | Pytest |
 | Linting / formatting | Ruff |
 | Container | Docker |
-| CI | GitHub Actions |
+| CI/CD | GitHub Actions |
 | Dependency updates | Dependabot |
 | Deployment | Streamlit Community Cloud |
 
@@ -70,12 +66,6 @@ python -m venv .venv
 source .venv/bin/activate
 ```
 
-On Windows PowerShell:
-
-```powershell
-.venv\Scripts\Activate.ps1
-```
-
 Install dependencies:
 
 ```bash
@@ -91,7 +81,7 @@ Run the Streamlit app:
 streamlit run streamlit_app.py
 ```
 
-The app runs locally at:
+Open:
 
 ```text
 http://localhost:8501
@@ -99,15 +89,10 @@ http://localhost:8501
 
 ## Docker
 
-Build the image:
+Build and run the container:
 
 ```bash
 docker build -t salary-prediction-linear-regression .
-```
-
-Run the container:
-
-```bash
 docker run --rm -p 8501:8501 salary-prediction-linear-regression
 ```
 
@@ -126,20 +111,9 @@ python -c "import streamlit_app"
 
 ## CI/CD
 
-The GitHub Actions workflow runs on pushes and pull requests to `main`.
+The GitHub Actions workflow validates dependency installation, Ruff, Pytest, Python compilation, app imports, and Docker image build on pushes and pull requests to `main`.
 
-It checks:
-
-- dependency installation
-- Ruff linting
-- Ruff formatting
-- Pytest tests
-- Python module compilation
-- package import
-- Streamlit app import
-- Docker image build
-
-Dependabot checks Python and GitHub Actions dependencies weekly. Dependabot pull requests are automatically squash-merged only after the CI workflow finishes successfully.
+Dependabot checks Python and GitHub Actions dependencies weekly. Dependabot pull requests are automatically squash-merged after successful CI.
 
 ## Project Structure
 
@@ -177,24 +151,18 @@ Dependabot checks Python and GitHub Actions dependencies weekly. Dependabot pull
 | [`app.py`](app.py) | Application compatibility entry point |
 | [`src/salary_prediction/model.py`](src/salary_prediction/model.py) | Data loading, validation, training, and prediction logic |
 | [`data/salary_data.csv`](data/salary_data.csv) | Small sample dataset |
-| [`tests/test_model.py`](tests/test_model.py) | Unit tests for data and model behavior |
+| [`tests/test_model.py`](tests/test_model.py) | Unit tests |
 | [`Dockerfile`](Dockerfile) | Container image definition |
 | [`requirements.txt`](requirements.txt) | Streamlit Cloud dependency entry point |
 | [`runtime.txt`](runtime.txt) | Python runtime version for Streamlit Cloud |
 | [`pyproject.toml`](pyproject.toml) | Project metadata, dependency ranges, Ruff, and Pytest config |
 | [`.streamlit/config.toml`](.streamlit/config.toml) | Streamlit app configuration |
-| [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | CI validation workflow |
+| [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | CI workflow |
 | [`.github/workflows/dependabot-auto-merge.yml`](.github/workflows/dependabot-auto-merge.yml) | Dependabot auto-merge after green CI |
 | [`.github/dependabot.yml`](.github/dependabot.yml) | Weekly dependency update checks |
 | [`LICENSE`](LICENSE) | MIT license |
 
 ## Deployment
-
-The app is deployed on Streamlit Community Cloud:
-
-```text
-https://salary-prediction-linear-regression.streamlit.app
-```
 
 Streamlit Cloud uses:
 
@@ -202,12 +170,6 @@ Streamlit Cloud uses:
 Main file path: streamlit_app.py
 Python version: runtime.txt
 Dependencies: requirements.txt
-```
-
-`requirements.txt` installs the package with app dependencies:
-
-```text
--e .[app]
 ```
 
 ## License
