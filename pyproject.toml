@@ -9,7 +9,7 @@ license = "MIT"
 dependencies = [
   "matplotlib>=3.10,<4",
   "numpy>=2.2,<3",
-  "pandas>=2.3,<3",
+  "pandas>=2.3,<4",
   "scikit-learn>=1.7,<2",
 ]
 
