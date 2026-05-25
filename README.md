@@ -6,23 +6,9 @@
 
 Streamlit app for salary prediction with linear regression.
 
+Live demo: [salary-prediction-linear-regression.streamlit.app](https://salary-prediction-linear-regression.streamlit.app)
+
 The project demonstrates a compact Python machine-learning workflow: CSV data loading, input validation, linear regression training, prediction, Streamlit UI, tests, linting, formatting checks, Docker build, Dependabot updates, and GitHub Actions CI.
-
-## Quick Links
-
-| Resource | Link |
-|---|---|
-| Streamlit app entry point | [`streamlit_app.py`](streamlit_app.py) |
-| Compatibility app entry point | [`app.py`](app.py) |
-| Model and validation logic | [`src/salary_prediction/model.py`](src/salary_prediction/model.py) |
-| Sample dataset | [`data/salary_data.csv`](data/salary_data.csv) |
-| Tests | [`tests/test_model.py`](tests/test_model.py) |
-| CI workflow | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
-| Dependabot config | [`.github/dependabot.yml`](.github/dependabot.yml) |
-| Dockerfile | [`Dockerfile`](Dockerfile) |
-| License | [`LICENSE`](LICENSE) |
-
-No public live demo is linked for this repository. Run the app locally or deploy it with the Streamlit Cloud settings below.
 
 ## Project Status
 
@@ -56,6 +42,7 @@ The dataset is a small sample CSV stored in the repository. The model is intenti
 | Container | Docker |
 | CI | GitHub Actions |
 | Dependency updates | Dependabot |
+| Deployment | Streamlit Community Cloud |
 
 ## Model
 
@@ -192,13 +179,24 @@ Dependabot checks Python and GitHub Actions dependencies weekly. Dependabot pull
 | [`data/salary_data.csv`](data/salary_data.csv) | Small sample dataset |
 | [`tests/test_model.py`](tests/test_model.py) | Unit tests for data and model behavior |
 | [`Dockerfile`](Dockerfile) | Container image definition |
-| [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | CI validation |
+| [`requirements.txt`](requirements.txt) | Streamlit Cloud dependency entry point |
+| [`runtime.txt`](runtime.txt) | Python runtime version for Streamlit Cloud |
+| [`pyproject.toml`](pyproject.toml) | Project metadata, dependency ranges, Ruff, and Pytest config |
+| [`.streamlit/config.toml`](.streamlit/config.toml) | Streamlit app configuration |
+| [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | CI validation workflow |
 | [`.github/workflows/dependabot-auto-merge.yml`](.github/workflows/dependabot-auto-merge.yml) | Dependabot auto-merge after green CI |
 | [`.github/dependabot.yml`](.github/dependabot.yml) | Weekly dependency update checks |
+| [`LICENSE`](LICENSE) | MIT license |
 
-## Streamlit Cloud Setup
+## Deployment
 
-Use these settings if deploying the app to Streamlit Community Cloud:
+The app is deployed on Streamlit Community Cloud:
+
+```text
+https://salary-prediction-linear-regression.streamlit.app
+```
+
+Streamlit Cloud uses:
 
 ```text
 Main file path: streamlit_app.py
