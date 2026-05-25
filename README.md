@@ -6,7 +6,23 @@
 
 Streamlit app for salary prediction with linear regression.
 
-The project demonstrates a compact Python machine-learning workflow: CSV data loading, input validation, linear regression training, prediction, Streamlit UI, tests, linting, formatting checks, Docker build, and GitHub Actions CI.
+The project demonstrates a compact Python machine-learning workflow: CSV data loading, input validation, linear regression training, prediction, Streamlit UI, tests, linting, formatting checks, Docker build, Dependabot updates, and GitHub Actions CI.
+
+## Quick Links
+
+| Resource | Link |
+|---|---|
+| Streamlit app entry point | [`streamlit_app.py`](streamlit_app.py) |
+| Compatibility app entry point | [`app.py`](app.py) |
+| Model and validation logic | [`src/salary_prediction/model.py`](src/salary_prediction/model.py) |
+| Sample dataset | [`data/salary_data.csv`](data/salary_data.csv) |
+| Tests | [`tests/test_model.py`](tests/test_model.py) |
+| CI workflow | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
+| Dependabot config | [`.github/dependabot.yml`](.github/dependabot.yml) |
+| Dockerfile | [`Dockerfile`](Dockerfile) |
+| License | [`LICENSE`](LICENSE) |
+
+No public live demo is linked for this repository. Run the app locally or deploy it with the Streamlit Cloud settings below.
 
 ## Project Status
 
@@ -24,6 +40,7 @@ The dataset is a small sample CSV stored in the repository. The model is intenti
 - Validate the project with Pytest and Ruff
 - Build the app as a Docker image
 - Run automated checks with GitHub Actions
+- Auto-merge Dependabot pull requests after successful CI
 
 ## Tech Stack
 
@@ -38,7 +55,7 @@ The dataset is a small sample CSV stored in the repository. The model is intenti
 | Linting / formatting | Ruff |
 | Container | Docker |
 | CI | GitHub Actions |
-| Dependency checks | Dependabot |
+| Dependency updates | Dependabot |
 
 ## Model
 
@@ -135,7 +152,7 @@ It checks:
 - Streamlit app import
 - Docker image build
 
-Dependabot checks Python and GitHub Actions dependencies weekly. Major version updates are ignored by default and should be reviewed manually.
+Dependabot checks Python and GitHub Actions dependencies weekly. Dependabot pull requests are automatically squash-merged only after the CI workflow finishes successfully.
 
 ## Project Structure
 
@@ -144,7 +161,8 @@ Dependabot checks Python and GitHub Actions dependencies weekly. Major version u
 ├── .github/
 │   ├── dependabot.yml
 │   └── workflows/
-│       └── ci.yml
+│       ├── ci.yml
+│       └── dependabot-auto-merge.yml
 ├── .streamlit/
 │   └── config.toml
 ├── data/
@@ -168,14 +186,15 @@ Dependabot checks Python and GitHub Actions dependencies weekly. Major version u
 
 | File | Purpose |
 |---|---|
-| `streamlit_app.py` | Streamlit application entry point |
-| `app.py` | Application compatibility entry point |
-| `src/salary_prediction/model.py` | Data loading, validation, training, and prediction logic |
-| `data/salary_data.csv` | Small sample dataset |
-| `tests/test_model.py` | Unit tests for data and model behavior |
-| `Dockerfile` | Container image definition |
-| `.github/workflows/ci.yml` | CI validation |
-| `.github/dependabot.yml` | Weekly dependency update checks |
+| [`streamlit_app.py`](streamlit_app.py) | Streamlit application entry point |
+| [`app.py`](app.py) | Application compatibility entry point |
+| [`src/salary_prediction/model.py`](src/salary_prediction/model.py) | Data loading, validation, training, and prediction logic |
+| [`data/salary_data.csv`](data/salary_data.csv) | Small sample dataset |
+| [`tests/test_model.py`](tests/test_model.py) | Unit tests for data and model behavior |
+| [`Dockerfile`](Dockerfile) | Container image definition |
+| [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | CI validation |
+| [`.github/workflows/dependabot-auto-merge.yml`](.github/workflows/dependabot-auto-merge.yml) | Dependabot auto-merge after green CI |
+| [`.github/dependabot.yml`](.github/dependabot.yml) | Weekly dependency update checks |
 
 ## Streamlit Cloud Setup
 
