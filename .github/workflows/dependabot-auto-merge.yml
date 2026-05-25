@@ -1,41 +1,58 @@
 name: Dependabot Auto Merge
 
 on:
-  pull_request_target:
-    types: [opened, reopened, synchronize, ready_for_review]
+  workflow_run:
+    workflows: ["Python CI"]
+    types: [completed]
 
 permissions:
   contents: write
   pull-requests: write
 
 concurrency:
-  group: dependabot-auto-merge-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
+  group: dependabot-auto-merge-${{ github.event.workflow_run.id }}
+  cancel-in-progress: false
 
 jobs:
-  auto-merge:
-    name: Auto-merge safe Dependabot updates
-    if: github.actor == 'dependabot[bot]' && github.event.pull_request.draft == false
+  merge:
+    name: Merge Dependabot PR after green CI
+    if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
     steps:
-      - name: Inspect Dependabot metadata
-        id: metadata
-        uses: dependabot/fetch-metadata@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Enable squash auto-merge for patch and minor updates
-        if: steps.metadata.outputs.update-type == 'version-update:semver-patch' || steps.metadata.outputs.update-type == 'version-update:semver-minor'
+      - name: Merge Dependabot pull request
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_URL: ${{ github.event.pull_request.html_url }}
-        run: gh pr merge "$PR_URL" --auto --squash --delete-branch
+          REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          set -euo pipefail
 
-      - name: Keep major updates for manual review
-        if: steps.metadata.outputs.update-type == 'version-update:semver-major'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_URL: ${{ github.event.pull_request.html_url }}
-        run: gh pr comment "$PR_URL" --body "Major dependency update detected. Auto-merge is disabled for major updates; review manually after CI passes."
+          PR_NUMBER="$(gh api "repos/$REPO/actions/runs/$RUN_ID/pulls" --jq '.[0].number // empty')"
+
+          if [ -z "$PR_NUMBER" ]; then
+            echo "No pull request is attached to this workflow run."
+            exit 0
+          fi
+
+          AUTHOR="$(gh pr view "$PR_NUMBER" --repo "$REPO" --json author --jq '.author.login')"
+          STATE="$(gh pr view "$PR_NUMBER" --repo "$REPO" --json state --jq '.state')"
+          IS_DRAFT="$(gh pr view "$PR_NUMBER" --repo "$REPO" --json isDraft --jq '.isDraft')"
+
+          if [ "$AUTHOR" != "dependabot[bot]" ]; then
+            echo "PR #$PR_NUMBER was created by $AUTHOR, not Dependabot. Skipping."
+            exit 0
+          fi
+
+          if [ "$STATE" != "OPEN" ]; then
+            echo "PR #$PR_NUMBER is not open. Skipping."
+            exit 0
+          fi
+
+          if [ "$IS_DRAFT" = "true" ]; then
+            echo "PR #$PR_NUMBER is draft. Skipping."
+            exit 0
+          fi
+
+          gh pr merge "$PR_NUMBER" --repo "$REPO" --squash --delete-branch
