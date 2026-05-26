@@ -9,8 +9,6 @@ Single-feature salary prediction app with Streamlit, pandas, scikit-learn, tests
 [![Docker](https://img.shields.io/badge/Docker-ready-2496ed?style=for-the-badge&logo=docker&logoColor=white)](Dockerfile)
 [![License](https://img.shields.io/github/license/itkrivoshei/salary-prediction-linear-regression?style=for-the-badge)](LICENSE)
 
-### [Open Streamlit App ->](https://salary-prediction-linear-regression.streamlit.app/)
-
 </div>
 
 ## What The App Does
@@ -81,8 +79,6 @@ data/salary_data.csv           # bundled CSV sample
 tests/test_model.py            # model tests
 Dockerfile                     # production container
 ```
-
-Live app: https://salary-prediction-linear-regression.streamlit.app/
 
 ## License
 
