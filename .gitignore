@@ -40,3 +40,10 @@ dist/
 # OS files and logs
 .DS_Store
 *.log
+node_modules/
+.env.local
+*.pyc
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+coverage/
