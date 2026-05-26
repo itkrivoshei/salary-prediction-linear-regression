@@ -1,66 +1,55 @@
+<div align="center">
+
 # Salary Prediction Linear Regression
 
-[![Python CI](https://img.shields.io/github/actions/workflow/status/itkrivoshei/salary-prediction-linear-regression/ci.yml?branch=main&style=flat-square)](https://github.com/itkrivoshei/salary-prediction-linear-regression/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/github/license/itkrivoshei/salary-prediction-linear-regression?style=flat-square)](LICENSE)
-[![Python](https://img.shields.io/badge/python-3.12-blue?style=flat-square&logo=python&logoColor=white)](pyproject.toml)
+Single-feature salary prediction app with Streamlit, pandas, scikit-learn, tests, and a Docker image.
 
-Streamlit app for salary prediction with linear regression.
+[![Live app](https://img.shields.io/badge/live-Streamlit-ff4b4b?style=for-the-badge&logo=streamlit&logoColor=white)](https://salary-prediction-linear-regression.streamlit.app/)
+[![Python CI](https://img.shields.io/github/actions/workflow/status/itkrivoshei/salary-prediction-linear-regression/ci.yml?branch=main&style=for-the-badge&label=ci&logo=githubactions&logoColor=white)](https://github.com/itkrivoshei/salary-prediction-linear-regression/actions/workflows/ci.yml)
+[![Docker](https://img.shields.io/badge/Docker-ready-2496ed?style=for-the-badge&logo=docker&logoColor=white)](Dockerfile)
+[![License](https://img.shields.io/github/license/itkrivoshei/salary-prediction-linear-regression?style=for-the-badge)](LICENSE)
 
-Live demo: [salary-prediction-linear-regression.streamlit.app](https://salary-prediction-linear-regression.streamlit.app)
+### [Open Streamlit App ->](https://salary-prediction-linear-regression.streamlit.app/)
 
-## Project Scope
+</div>
 
-Small educational ML project for a simple regression workflow: CSV loading, input validation, model training, Streamlit UI, tests, Docker build, Dependabot, and GitHub Actions CI.
+## What The App Does
 
-The dataset is a small sample CSV stored in the repository. The model should not be used for real compensation benchmarking, hiring decisions, financial planning, or salary negotiation.
+Upload a CSV or use the bundled `data/salary_data.csv`, train a linear regression model, inspect metrics, view the fitted line, and estimate salary from years of professional experience.
 
-## Tech Stack
+Expected CSV shape:
 
-| Area | Tools |
-|---|---|
-| Language | Python 3.12 |
-| UI | Streamlit |
-| Data | pandas, NumPy |
-| Machine learning | scikit-learn |
-| Visualization | Matplotlib |
-| Testing / quality | Pytest, Ruff |
-| Container | Docker |
-| CI/CD | GitHub Actions |
-| Dependency updates | Dependabot |
-| Deployment | Streamlit Community Cloud |
+```text
+experience_years,salary
+1,42000
+3,56000
+```
 
-## Model
+## Model Contract
 
 | Item | Value |
-|---|---|
+| --- | --- |
 | Algorithm | Linear Regression |
-| Input feature | Years of experience |
-| Target | Salary |
-| Dataset source | Local CSV sample |
-| Intended use | Educational demo |
+| Feature | `experience_years` |
+| Target | `salary` |
+| Validation | Required columns, numeric coercion, minimum row count, positive salary values |
+| Metrics | MSE, RMSE, MAE, R2 |
 
-## Install
+The model uses one input feature and should not be used for compensation benchmarking, hiring decisions, financial planning, or salary negotiation.
+
+## Local Setup
 
 ```bash
-git clone git@github.com:itkrivoshei/salary-prediction-linear-regression.git
+git clone https://github.com/itkrivoshei/salary-prediction-linear-regression.git
 cd salary-prediction-linear-regression
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -e ".[app,dev]"
-```
-
-## Run
-
-```bash
 streamlit run streamlit_app.py
 ```
 
-Open:
-
-```text
-http://localhost:8501
-```
+Open `http://localhost:8501`.
 
 ## Docker
 
@@ -69,50 +58,32 @@ docker build -t salary-prediction-linear-regression .
 docker run --rm -p 8501:8501 salary-prediction-linear-regression
 ```
 
-## Verify
+## Verification
 
-Run the same checks used by CI:
+| Command | Purpose |
+| --- | --- |
+| `python -m ruff check .` | Lint Python files |
+| `python -m ruff format --check .` | Check formatting |
+| `python -m pytest -q` | Run tests |
+| `python -m compileall -q app.py streamlit_app.py src tests` | Compile modules |
+| `python -c "import salary_prediction.model"` | Validate package import |
+| `python -c "import streamlit_app"` | Validate app import |
 
-```bash
-python -m ruff check .
-python -m ruff format --check .
-python -m pytest -q
-python -m compileall -q app.py streamlit_app.py src tests
-python -c "import salary_prediction.model"
-python -c "import streamlit_app"
-```
+CI also builds the Docker image.
 
-## CI/CD
-
-GitHub Actions validates dependency installation, Ruff, Pytest, Python compilation, app imports, and Docker image build on pushes and pull requests to `main`.
-
-Dependabot checks Python and GitHub Actions dependencies weekly and is auto-merged after successful CI.
-
-## Project Files
-
-| File | Purpose |
-|---|---|
-| [`streamlit_app.py`](streamlit_app.py) | Streamlit application entry point |
-| [`app.py`](app.py) | Application compatibility entry point |
-| [`src/salary_prediction/model.py`](src/salary_prediction/model.py) | Data loading, validation, training, and prediction logic |
-| [`data/salary_data.csv`](data/salary_data.csv) | Sample dataset |
-| [`tests/test_model.py`](tests/test_model.py) | Unit tests |
-| [`Dockerfile`](Dockerfile) | Container image definition |
-| [`pyproject.toml`](pyproject.toml) | Project metadata, dependencies, Ruff, and Pytest config |
-| [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | CI workflow |
-| [`.github/dependabot.yml`](.github/dependabot.yml) | Weekly dependency updates |
-| [`LICENSE`](LICENSE) | MIT license |
-
-## Deployment
-
-Streamlit Cloud uses:
+## Key Files
 
 ```text
-Main file path: streamlit_app.py
-Python version: runtime.txt
-Dependencies: requirements.txt
+app.py                         # Streamlit UI
+streamlit_app.py               # Streamlit Cloud entry point
+src/salary_prediction/model.py # loading, validation, training, prediction
+data/salary_data.csv           # bundled CSV sample
+tests/test_model.py            # model tests
+Dockerfile                     # production container
 ```
+
+Live app: https://salary-prediction-linear-regression.streamlit.app/
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+[MIT](LICENSE)
