@@ -11,6 +11,10 @@ Single-feature salary prediction app with Streamlit, pandas, scikit-learn, tests
 
 </div>
 
+> [!NOTE]
+> **Archived.** This was a learning project. It is complete and no longer maintained, so the repository is read-only.
+> The live demo stays online.
+
 ## What The App Does
 
 Upload a CSV or use the bundled `data/salary_data.csv`, train a linear regression model, inspect metrics, view the fitted line, and estimate salary from years of professional experience.
